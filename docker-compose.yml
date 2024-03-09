@@ -1,0 +1,9 @@
+version: '3.3'
+
+services:
+  telegrambot:
+    container_name: telegrambot
+    build: .
+    volumes:
+      - ./chat_history.json:/app/chat_history.json
+    restart: unless-stopped
