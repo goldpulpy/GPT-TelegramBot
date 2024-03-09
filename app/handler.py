@@ -20,6 +20,8 @@ def message_handler(message: Message) -> None:
     if not chat_filter.check_all(message):
         return
     
+    bot.send_chat_action(message.chat.id, 'typing')
+    
     query = message.text.replace(f"@{bot_info.username}", "")
     
     chat_storage.add_to_chat_history(
