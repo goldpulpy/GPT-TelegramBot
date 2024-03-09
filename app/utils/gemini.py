@@ -60,6 +60,7 @@ class Gemini:
         Args:
             messages (list): The messages to send to the GEMINI API.
         """
+        messages = messages.copy()
         messages.insert(0, {"role":"user","parts":[{"text":PROMPT}]})
         messages.insert(1, {"role":"model","parts":[{"text":"Хорошо"}]})
         self.params["contents"] = messages
@@ -78,14 +79,17 @@ class Gemini:
                 response = requests.post(
                     url=f"{self.url_base}{api_path}",
                     json=self.params,
-                ).json()[0]
+                ).json()
                     
-                response = response.get("candidates", None)
-                answer = response[0]["content"]["parts"][0]["text"]
+                answer = ''.join(
+                    candidate['content']['parts'][0]['text']
+                    for part in response
+                    for candidate in part['candidates']
+                )
                 
                 return answer
             except Exception:
                 sleep(0.5)
                 continue
         
-        return None
+        return None 
