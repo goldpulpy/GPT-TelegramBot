@@ -4,15 +4,19 @@ from app.handler import message_handler
 
 class TestBot(unittest.TestCase):
 
+
+    @patch('app.bot.send_chat_action')
     @patch('app.bot.send_message')
     @patch('app.utils.gemini_bot.invoke')
     @patch('app.utils.chat_storage')
     @patch('app.utils.chat_filter.check_all')
     def test_message_handler(
-            self, mock_check_all, 
+            self, 
+            mock_check_all, 
             mock_chat_storage, 
             mock_gemini_bot, 
-            mock_send_message
+            mock_send_message,
+            mock_send_chat_action
     ):
 
         message = MagicMock()
@@ -25,6 +29,7 @@ class TestBot(unittest.TestCase):
         # Call the message handler
         message_handler(message)
 
+        mock_send_chat_action.assert_called_once_with(12345, 'typing')
         mock_send_message.assert_called_once_with(12345, "Test response")
     
     @patch('app.bot.send_message')
