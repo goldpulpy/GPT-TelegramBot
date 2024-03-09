@@ -49,7 +49,18 @@ class IsMyChat:
         if my_username in message.text:
             return True
         return False
-        
+    
+    def is_question(self, message: Message) -> bool:
+        """
+        Checks if the message is a question.
+
+        Args:
+            message (Message): The message to check.
+
+        Returns:
+            bool: True if the message is a question, False otherwise.
+        """
+        return message.text.endswith("?")
         
     
     def check_all(self, message: Message) -> bool:
@@ -68,9 +79,11 @@ class IsMyChat:
         if not self.is_my_chat(message):
             return False
 
+
+        
         if  not self.reply_to_me(message) \
-        and not self.message_with_my_username(message):
-            
+        and not self.message_with_my_username(message) \
+        and not self.is_question(message):
             return False
 
         return True
