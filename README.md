@@ -25,7 +25,8 @@ CHAT_HISTORY_SIZE=50 # Размер истории чата
 
 ## Запуск docker
 ```bash
-sh docker.sh # запускаем docker
+docker build -t geminibot . # собираем docker образ
+docker run -d --name geminibot geminibot # запускаем docker
 # или
 docker-compose up -d # запускаем docker-compose
 
