@@ -2,8 +2,6 @@ version: '3.3'
 
 services:
   telegrambot:
-    container_name: telegrambot
+    container_name: geminibot
     build: .
-    volumes:
-      - ./chat_history.json:/app/chat_history.json
     restart: unless-stopped
