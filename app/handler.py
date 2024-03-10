@@ -23,11 +23,14 @@ def message_handler(message: Message) -> None:
     bot.send_chat_action(message.chat.id, 'typing')
     
     query = message.text.replace(f"@{bot_info.username}", "")
-    
-    
     messages = chat_storage.get_chat_history()
-    answer_from_gemini = gemini_bot.invoke(messages)
+    messages.append({"role":"user","parts":[{"text": query}]})
     
+    
+    answer_from_gemini = gemini_bot.invoke(messages)
+    if answer_from_gemini is None:
+        loggerman.log("No answer from GEMINI API")
+        return
     
     chat_storage.add_to_chat_history({"role":"user","parts":[{"text": query}]})
     chat_storage.add_to_chat_history(
@@ -35,9 +38,4 @@ def message_handler(message: Message) -> None:
             {"text": answer_from_gemini if answer_from_gemini else ""}
             ]
         })
-    
-    if answer_from_gemini is None:
-        loggerman.log("No answer from GEMINI API")
-        return
-    
     bot.send_message(message.chat.id, answer_from_gemini)
