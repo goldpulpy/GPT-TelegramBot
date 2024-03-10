@@ -17,7 +17,7 @@ class ChatHistory:
         """
         Returns the chat history as a list of dictionaries.
         """        
-        return self.chat_history
+        return self.chat_history.copy()
     
     def add_to_chat_history(self, message: dict) -> None:
         """
