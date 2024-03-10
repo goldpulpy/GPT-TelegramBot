@@ -36,6 +36,7 @@ class TestChatHistory(unittest.TestCase):
         message = {"text": "Hello, world!"}
         self.chat_history.add_to_chat_history(message)
         self.chat_history.clear_time = datetime.now() - timedelta(minutes=40)
+        self.chat_history.get_chat_history()
         self.chat_history.add_to_chat_history(message)
         self.assertEqual(self.chat_history.chat_history, [message])
         

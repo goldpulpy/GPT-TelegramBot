@@ -16,7 +16,13 @@ class ChatHistory:
     def get_chat_history(self) -> list:
         """
         Returns the chat history as a list of dictionaries.
-        """        
+        """
+        now_time = datetime.now()
+        
+        if self.clear_time is not None \
+        and now_time > self.clear_time:
+            self.chat_history = []
+            
         return self.chat_history.copy()
     
     def add_to_chat_history(self, message: dict) -> None:
@@ -26,14 +32,6 @@ class ChatHistory:
         Args:
             message (dict): The message to add to the chat history.
         """
-        
-        now_time = datetime.now()
-        
-        if self.clear_time is not None \
-        and now_time > self.clear_time:
-            self.chat_history = []
-
-
 
         self.clear_time = datetime.now() + timedelta(minutes=30)
         
