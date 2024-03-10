@@ -74,7 +74,7 @@ class Gemini:
         """
 
         api_path = "/api/google/v1beta/models/gemini-pro:streamGenerateContent"
-        for _ in range(7):
+        for _ in range(120):
             try:
                 response = requests.post(
                     url=f"{self.url_base}{api_path}",
@@ -89,7 +89,7 @@ class Gemini:
                 
                 return answer
             except Exception:
-                sleep(0.5)
+                sleep(0.7)
                 continue
         
         return None 
