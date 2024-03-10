@@ -24,17 +24,17 @@ def message_handler(message: Message) -> None:
     
     query = message.text.replace(f"@{bot_info.username}", "")
     
-    chat_storage.add_to_chat_history(
-        {"role":"user","parts":[{"text": query}]}
-    )
+    
     messages = chat_storage.get_chat_history()
     answer_from_gemini = gemini_bot.invoke(messages)
+    
+    
+    chat_storage.add_to_chat_history({"role":"user","parts":[{"text": query}]})
     chat_storage.add_to_chat_history(
         {"role":"model","parts":[
-                {"text": answer_from_gemini if answer_from_gemini else ""}
+            {"text": answer_from_gemini if answer_from_gemini else ""}
             ]
-        }
-    )
+        })
     
     if answer_from_gemini is None:
         loggerman.log("No answer from GEMINI API")
