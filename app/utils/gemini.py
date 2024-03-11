@@ -35,15 +35,15 @@ class Gemini:
             ]
         }
 
-    def invoke(self, messages: list = None) -> str:
+    def invoke(self, messages: list = None) -> str | None:
         """
         Invoke the GEMINI API with the provided messages.
 
         Parameters:
-            messages (list, optional): The messages to send to the GEMINI API. Defaults to None.
+            messages (list): The messages to send to the GEMINI API. Defaults to None.
 
         Returns:
-            str | dict: The response from the GEMINI API.
+            str | None: The response from the GEMINI API.
         """
         
         if messages is None or len(messages) == 0:

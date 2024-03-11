@@ -1,8 +1,7 @@
 import unittest
 from app.utils.chat_history import ChatHistory
-from unittest.mock import patch, mock_open
 from datetime import datetime, timedelta
-import os, json
+import os
 
 class TestChatHistory(unittest.TestCase):
 

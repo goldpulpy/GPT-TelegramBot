@@ -33,7 +33,7 @@ docker run -d --name geminibot geminibot # Запускаем Docker
 docker-compose up -d # Запускаем Docker-compose
 ```
 
-## Обычный запуск (venv/screen)
+## Обычный запуск (venv)
 ```bash
 python -m venv .venv
 source .venv/bin/activate
