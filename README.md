@@ -1,10 +1,12 @@
-# Бот gemini для вашего чата на TeleBot
+# Бот gemini-assistant для вашего чата | TeleBot sync
 Версия Python `3.11`
 Автор: `@goldpulpy`
 
-- Используется открытый API NextChat с gemini-pro 
-- Бот работает только в чате который вы указали в `.env`
-- Боту нужно выдать админку в чате
+Этот ассистент для чата предназначен для улучшения взаимодействия в вашем чате в Telegram, используя возможности открытого NextChat API gemini-pro.
+
+- Используется открытый API NextChat с gemini-pro
+- Бот работает только в чате, который вы указали в .env
+- Необходимо предоставить боту права администратора в чате
 
 ## Настройки
 - Заходим в [BotFather](https://t.me/BotFather) и создаем бота
@@ -18,26 +20,25 @@ BOT_TOKEN=your_bot_token # Токен бота
 CHAT_ID=your_chat_id # ID чата | -100000000000
 CHAT_HISTORY_SIZE=50 # Размер истории чата
 ```
-Если размер истории больше 50, то будут удаляться самые старые сообщения из истории
+Если размер истории больше 50, будут удаляться самые старые сообщения.
 
 
 Файл `app/prompt.py` - Настройки промпта для роли бота
 
 ## Запуск docker
 ```bash
-docker build -t geminibot . # собираем docker образ
-docker run -d --name geminibot geminibot # запускаем docker
+docker build -t geminibot . # Собираем Docker образ
+docker run -d --name geminibot geminibot # Запускаем Docker
 # или
-docker-compose up -d # запускаем docker-compose
-
+docker-compose up -d # Запускаем Docker-compose
 ```
 
-## Обычный запуск (venv)
+## Обычный запуск (venv/screen)
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 
-# если без виртуального окружения, начинаем с pip
+# Если без виртуального окружения, начинаем с pip
 pip install -r requirements.txt
 python main.py
 ```
