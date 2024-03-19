@@ -1,7 +1,6 @@
 import unittest
 from unittest.mock import Mock, patch, MagicMock
 from app.handler import is_message_valid, process_message, generate_response, clean_message_text, update_chat_history, send_response
-from telebot.types import Message
 
 
 class TestHandler(unittest.TestCase):
@@ -29,14 +28,10 @@ class TestHandler(unittest.TestCase):
         mock_send_response.assert_called_with(12345, "Ответ")
 
     @patch('app.handler.clean_message_text')
-    @patch('app.handler.update_chat_history')
     @patch('app.handler.gpt_bot')
-    @patch('app.handler.chat_storage')
     def test_generate_response(
         self, 
-        mock_chat_storage, 
         mock_gpt_bot, 
-        mock_update_chat_history, 
         mock_clean_message_text
     ):
         mock_clean_message_text.return_value = "Привет"
