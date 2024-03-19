@@ -62,7 +62,6 @@ class IsMyChat:
         """
         return message.text.endswith("?")
         
-    
     def check_all(self, message: Message) -> bool:
         """
         Checks if the message is from the chat with the given chat_id and
