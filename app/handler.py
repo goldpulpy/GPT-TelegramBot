@@ -1,5 +1,5 @@
 from app import bot, bot_info
-from app.utils import loggerman, gemini_bot
+from app.utils import loggerman, gpt_bot
 from app.utils import chat_filter, chat_storage
 
 from telebot.types import Message
@@ -24,18 +24,22 @@ def message_handler(message: Message) -> None:
     
     query = message.text.replace(f"@{bot_info.username}", "")
     messages = chat_storage.get_chat_history()
-    messages.append({"role":"user","parts":[{"text": query}]})
+    messages.append({"role": "user", "content": query, "pluginId": None})
     
     
-    answer_from_gemini = gemini_bot.invoke(messages)
-    if answer_from_gemini is None:
-        loggerman.log("No answer from GEMINI API")
+    answer_from_gpt = gpt_bot.invoke(messages)
+    if answer_from_gpt is None:
+        loggerman.log("No answer from chataverywhere API")
         return
     
-    chat_storage.add_to_chat_history({"role":"user","parts":[{"text": query}]})
     chat_storage.add_to_chat_history(
-        {"role":"model","parts":[
-            {"text": answer_from_gemini if answer_from_gemini else ""}
-            ]
+        {"role": "user", "content": query, "pluginId": None}
+    )
+    chat_storage.add_to_chat_history({
+        "role": "assistant", 
+        "content": answer_from_gpt if answer_from_gpt is not None else "",  
+        "largeContextResponse":False,
+        "showHintForLargeContextResponse":False,
+        "pluginId": None
         })
-    bot.send_message(message.chat.id, answer_from_gemini)
+    bot.send_message(message.chat.id, answer_from_gpt)

@@ -1,10 +1,10 @@
-# Бот gemini-assistant для вашего чата | TeleBot sync
+# Бот gpt-assistant для вашего чата | TeleBot sync
 Версия Python `3.11`
 Автор: `@goldpulpy`
 
-Этот ассистент для чата предназначен для улучшения взаимодействия в вашем чате в Telegram, используя возможности открытого NextChat API gemini-pro.
+Этот ассистент для чата предназначен для улучшения взаимодействия в вашем чате в Telegram, используя возможности открытого API gpt-3.5 (ChatAnyWhere).
 
-- Используется открытый API NextChat с gemini-pro
+- Используется открытый API с gpt-3.5.
 - Бот работает только в чате, который вы указали в .env
 - Необходимо предоставить боту права администратора в чате
 
@@ -27,8 +27,8 @@ CHAT_HISTORY_SIZE=50 # Размер истории чата
 
 ## Запуск docker
 ```bash
-docker build -t geminibot . # Собираем Docker образ
-docker run -d --name geminibot geminibot # Запускаем Docker
+docker build -t assistantbot . # Собираем Docker образ
+docker run -d --name assistantbot assistantbot # Запускаем Docker
 # или
 docker-compose up -d # Запускаем Docker-compose
 ```

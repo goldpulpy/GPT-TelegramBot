@@ -7,14 +7,14 @@ class TestBot(unittest.TestCase):
 
     @patch('app.bot.send_chat_action')
     @patch('app.bot.send_message')
-    @patch('app.utils.gemini_bot.invoke')
+    @patch('app.utils.gpt_bot.invoke')
     @patch('app.utils.chat_storage')
     @patch('app.utils.chat_filter.check_all')
     def test_message_handler(
             self, 
             mock_check_all, 
             mock_chat_storage, 
-            mock_gemini_bot, 
+            mock_gpt_bot, 
             mock_send_message,
             mock_send_chat_action
     ):
@@ -25,7 +25,7 @@ class TestBot(unittest.TestCase):
 
         # Setup the mocks
         mock_check_all.return_value = True  
-        mock_gemini_bot.return_value = "Test response"
+        mock_gpt_bot.return_value = "Test response"
         # Call the message handler
         message_handler(message)
 
