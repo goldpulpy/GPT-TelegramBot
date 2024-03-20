@@ -58,14 +58,23 @@ class TestIsMyChat(unittest.TestCase):
         self.chat.is_question = MagicMock(return_value=True)
         self.assertTrue(self.chat.check_all(self.message))
 
-    def test_check_all_false_conditions(self):
+    def test_check_all_false_conditions_not_my_chat(self):
         self.message.text ="This does not meet any conditions."
         self.chat.is_my_chat = MagicMock(return_value=False)
         self.chat.reply_to_me = MagicMock(return_value=False)
         self.chat.message_with_my_username = MagicMock(return_value=False)
         self.chat.is_question = MagicMock(return_value=False)
         self.assertFalse(self.chat.check_all(self.message))
-        
+    
+    def test_check_all_false_conditions(self):
+        self.message.text ="This does not meet any conditions."
+        self.chat.is_my_chat = MagicMock(return_value=True)
+        self.chat.reply_to_me = MagicMock(return_value=False)
+        self.chat.message_with_my_username = MagicMock(return_value=False)
+        self.chat.is_question = MagicMock(return_value=False)
+        self.assertFalse(self.chat.check_all(self.message))
+    
+    
     def test_check_all_true_question(self):
         self.message.text = "Is this a question?"
         self.chat.is_my_chat = MagicMock(return_value=True)

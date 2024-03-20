@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock, patch, MagicMock
-from app.handler import is_message_valid, process_message, generate_response, clean_message_text, update_chat_history, send_response
+from app.handler import is_message_valid, process_message, generate_response, clean_message_text, update_chat_history, send_response, message_handler
 
 
 class TestHandler(unittest.TestCase):
@@ -16,6 +16,18 @@ class TestHandler(unittest.TestCase):
         self.assertTrue(is_message_valid(self.message))
         mock_chat_filter.check_all.return_value = False
         self.assertFalse(is_message_valid(self.message))
+        message = MagicMock()
+        message.text = None
+        self.assertFalse(is_message_valid(message))
+        
+    
+    @patch('app.handler.process_message')
+    @patch('app.handler.is_message_valid')
+    def test_message_handler(self, mock_process_message, mock_is_message_valid):
+        mock_is_message_valid.return_value = True
+        message_handler(self.message)
+        mock_process_message.assert_called_with(self.message)
+        
 
     @patch('app.handler.bot.send_chat_action')
     @patch('app.handler.generate_response')
@@ -37,6 +49,22 @@ class TestHandler(unittest.TestCase):
         mock_clean_message_text.return_value = "Привет"
         mock_gpt_bot.invoke.return_value = "Ответ"
         self.assertEqual(generate_response(self.message), "Ответ")
+
+    @patch('app.handler.clean_message_text')
+    @patch('app.handler.gpt_bot')
+    @patch('app.handler.loggerman')
+    def test_generate_response_no_answer(
+        self,
+        mock_loggerman,
+        mock_gpt_bot, 
+        mock_clean_message_text
+    ):
+        mock_clean_message_text.return_value = "Привет"
+        mock_gpt_bot.invoke.return_value = None
+        self.assertIsNone(generate_response(self.message))
+        mock_loggerman.log.assert_called()
+
+
 
 
     @patch('app.handler.bot_info')
