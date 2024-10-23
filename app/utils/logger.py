@@ -1,40 +1,40 @@
-from datetime import datetime
+"""Logging module."""
+import sys
+import logging
+from logging.handlers import RotatingFileHandler
 
 
-class Logger:
+def setup_logger(
+    name: str,
+    log_file: str = 'logs.txt',
+    level: int = logging.INFO
+) -> logging.Logger:
     """
-    A simple Logger class that writes log messages to a file and prints them.
+    Configure and return a logger.
 
-    Attributes:
-        output_file (str): The file path for the log file where messages will be written.
+    :param name: name of the logger
+    :param log_file: log file path
+    :param level: logging level
+    :return: logger object
     """
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
 
-    def __init__(self, output_file: str = "logs.txt") -> None:
-        """
-        Initializes the Logger instance with the provided output file.
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
 
-        Args:
-            output_file (str): The file path for the log file. Defaults to "logs.txt".
-        """
-        self.output_file: str = output_file
-        
-    def log(self, message: str = "", is_start: bool = False) -> None:
-        """
-        Writes a log message to the output file and prints it to the console.
+    file_handler = RotatingFileHandler(
+        log_file, maxBytes=5*1024*1024, backupCount=5)
+    file_handler.setFormatter(formatter)
+    file_handler.setLevel(level)
 
-        The message is prefixed with a timestamp. If 'is_start' is True, the message
-        is also prefixed and suffixed with a newline character, to set it apart in the log file.
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(formatter)
+    console_handler.setLevel(level)
 
-        Args:
-            message (str): The log message to be written. Defaults to an empty string.
-            is_start (bool): Whether the log message is the start of a new section. Defaults to False.
-        """
-        # Get the current timestamp in the specified format
-        timestamp = datetime.now().strftime("%d.%m.%Y %H:%M:%S")
-        # Format the log entry with or without newlines based on 'is_start'
-        log_entry = f"\n{timestamp} - {message}\n" if is_start else f"{timestamp} - {message}\n"
-        # Open the log file in append mode and write the log entry
-        with open(self.output_file, 'a') as file:
-            file.write(log_entry)
-        # Print the log entry to the console, stripping any leading/trailing whitespace
-        print(log_entry.strip())
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
+
+    logger.propagate = False
+    return logger

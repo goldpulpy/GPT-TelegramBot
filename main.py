@@ -1,22 +1,23 @@
-from app import bot, bot_info
-from app.utils import loggerman
-from app import handler
+"""This is the main file that starts the bot."""
+from app import bot
+from app.utils.logger import setup_logger
+from app.handler import *
+
+logger = setup_logger(__name__)
+
 
 def main() -> None:
     """
     The main function that starts the bot.
     """
-    
-    # Log bot start
-    loggerman.log(f"Bot started as {bot_info.username} ({bot_info.id})")
 
     # Start polling
     while True:
         try:
+            logger.info("Starting bot...")
             bot.polling(none_stop=True)
         except Exception as err:
-            loggerman.log(err)
-
+            logger.error("Error: %s", err)
 
 
 if __name__ == "__main__":

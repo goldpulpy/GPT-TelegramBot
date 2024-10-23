@@ -2,24 +2,25 @@ import unittest
 from unittest.mock import patch
 from app.utils.gpt import GPT
 
+
 class TestGPT(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.gpt = GPT()
 
-    def test_initialization(self):
+    def test_initialization(self) -> None:
         self.assertEqual(self.gpt.url_base, "https://chateverywhere.app")
         self.assertIn("model", self.gpt.params)
         self.assertIn("prompt", self.gpt.params)
         self.assertIn("temperature", self.gpt.params)
 
     @patch('app.utils.gpt.requests.post')
-    def test_invoke_with_no_messages(self, mock_post):
+    def test_invoke_with_no_messages(self, mock_post) -> None:
         response = self.gpt.invoke()
         self.assertIsNone(response)
         mock_post.assert_not_called()
 
     @patch('app.utils.gpt.requests.post')
-    def test_invoke_with_messages(self, mock_post):
+    def test_invoke_with_messages(self, mock_post) -> None:
         mock_post.return_value.text = "Test response"
         messages = ["Message 1", "Message 2"]
         response = self.gpt.invoke(messages)
@@ -30,11 +31,12 @@ class TestGPT(unittest.TestCase):
         self.assertIn('messages', kwargs['json'])
         self.assertEqual(kwargs['json']['messages'], messages)
 
-    def test_setup_params(self):
+    def test_setup_params(self) -> None:
         messages = ["Message 1", "Message 2"]
-        self.gpt._GPT__setup_params(messages)
+        self.gpt._setup_params(messages)
         self.assertIn("messages", self.gpt.params)
         self.assertEqual(self.gpt.params["messages"], messages)
+
 
 if __name__ == '__main__':
     unittest.main()

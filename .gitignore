@@ -6,8 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
-# temp file
+# Files
 chat_history.json
+prompt.txt
 
 # Distribution / packaging
 .Python
